@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 th:text="${user.getName()}"></h1>
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Roles</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${user}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.surname}"></td>
+        <td th:text="${user.email}"></td>
+        <td th:text="${user.password}"></td>
+        <td th:each="role : ${roles}">
+            <span th:text="${role.name}"></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<button>
+    <a href="/logout" class="button">Logout</a>
+</button>
+</body>
+</html>
