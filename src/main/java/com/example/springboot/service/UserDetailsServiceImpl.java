@@ -11,6 +11,7 @@ import com.example.springboot.dao.UserDao;
 import com.example.springboot.model.Role;
 import com.example.springboot.model.User;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ import java.util.Set;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserDao userDao;
+
     @Autowired
     public UserDetailsServiceImpl(UserDao userDao)  {
         this.userDao = userDao;
@@ -27,6 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     //  приведен к классу UserDetails.
     // Для создания UserDetails используется интерфейс UserDetailsService, с единственным методом:
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userDao.getUserByName(s);
         if (user == null) {

@@ -20,8 +20,12 @@ public class RoleDaoImpl implements RoleDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired
-    UserDao userDao;
+//    private UserDao userDao;
+//
+//    public RoleDaoImpl(UserDao userDao) {
+//        this.userDao = userDao;
+//    }
+
 
     @Override
     public Role getRoleByRolename(String rolename) {

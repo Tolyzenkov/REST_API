@@ -17,10 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    @Qualifier("userDetailsServiceImpl")
     private final UserDetailsService userDetailsService; // сервис, с помощью которого тащим пользователя
-    @Autowired
     private final LoginSuccessHandler successUserHandler; // класс, в котором описана логика перенаправления пользователей по ролям
 
     @Autowired

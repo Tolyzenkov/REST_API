@@ -8,17 +8,25 @@ import org.springframework.web.bind.annotation.*;
 import com.example.springboot.dao.UserDao;
 import com.example.springboot.model.User;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
+    private final UserDao userDao;
+
     @Autowired
-    private UserDao userDao;
+    public AdminController(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @GetMapping
-    public String usersList(ModelMap model) {
+    public String usersList(ModelMap model, Principal principal) {
+        User user = userDao.getUserByName(principal.getName());
+        String msg = user.getName() + " with role: " + user.getRoles();
+        model.addAttribute("msg", msg);
         model.addAttribute("users", userDao.getAllUsers());
         return "index";
     }

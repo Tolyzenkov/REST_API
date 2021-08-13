@@ -16,13 +16,19 @@ import java.util.Set;
 @RequestMapping("/user")
 public class UserController {
 
+	private final UserDao userDao;
+
 	@Autowired
-	private UserDao userDao;
+	public UserController(UserDao userDao) {
+		this.userDao = userDao;
+	}
 
 	@GetMapping()
 	public String showUserPage(ModelMap model, Principal principal) {
 		User user = userDao.getUserByName(principal.getName());
 		Set<Role> roles = user.getRoles();
+		String msg = user.getName() + " whith role: " + user.getRoles();
+		model.addAttribute("msg", msg);
 		model.addAttribute("roles", roles);
 		model.addAttribute("user", user);
 		model.addAttribute("role", new Role());
