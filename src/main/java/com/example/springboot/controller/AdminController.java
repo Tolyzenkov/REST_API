@@ -28,6 +28,7 @@ public class AdminController {
         String msg = user.getName() + " with role: " + user.getRoles();
         model.addAttribute("msg", msg);
         model.addAttribute("users", userDao.getAllUsers());
+        model.addAttribute("user", user);
         return "index";
     }
 
@@ -55,6 +56,12 @@ public class AdminController {
     public String edit(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userDao.getUserById(id));
         return "edit";
+    }
+
+    @GetMapping("/currentUser")
+    @ResponseBody
+    public User currentUserInfo(@RequestParam(value = "id") Long id) {
+        return userDao.getUserById(id);
     }
 
     @PatchMapping("/{id}")

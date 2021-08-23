@@ -1,5 +1,7 @@
 package com.example.springboot.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -27,6 +29,7 @@ public class Role implements GrantedAuthority {
         this.users = users;
     }
 
+    @JsonIgnore
     public long getId() {
         return id;
     }
@@ -43,6 +46,7 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
+    @JsonIgnore
     public Set<User> getUsers() {
         return users;
     }
@@ -52,6 +56,7 @@ public class Role implements GrantedAuthority {
     }
 
     @Override
+    @JsonIgnore
     public String getAuthority() {
         return null;
     }

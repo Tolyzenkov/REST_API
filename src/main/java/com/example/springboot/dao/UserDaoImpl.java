@@ -43,6 +43,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User getUserById(long id) {
+        System.err.println(getAllUsers().stream().filter(user -> user.getId() == id).findAny().orElse(null));
         return getAllUsers().stream().filter(user -> user.getId() == id).findAny().orElse(null);
     }
 
