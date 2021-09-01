@@ -53,14 +53,14 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public void updateUser(User user, long id, List<String> role) {
-        user.setRoles(roleDao.setupRoles(user, role));
-        getUserById(id).setName(user.getName());
-        getUserById(id).setSurname(user.getSurname());
-        getUserById(id).setEmail(user.getEmail());
-        getUserById(id).setPassword(user.getPassword());
-        getUserById(id).setRoles(user.getRoles());
-        entityManager.refresh(getUserById(id));
+    public void updateUser(User user, List<String> roles) {
+        user.setRoles(roleDao.setupRoles(user, roles));
+        getUserById(user.getId()).setName(user.getName());
+        getUserById(user.getId()).setSurname(user.getSurname());
+        getUserById(user.getId()).setEmail(user.getEmail());
+        getUserById(user.getId()).setPassword(user.getPassword());
+        getUserById(user.getId()).setRoles(user.getRoles());
+        entityManager.refresh(getUserById(user.getId()));
     }
 
     @Override

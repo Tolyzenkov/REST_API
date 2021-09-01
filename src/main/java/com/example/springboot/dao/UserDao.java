@@ -14,7 +14,7 @@ public interface UserDao {
 
     User getUserByName(String name);
 
-    void updateUser(User user, long id, List<String> role);
+    void updateUser(User user, List<String> role);
 
     void deleteUser(long id);
 }

@@ -1,17 +1,37 @@
 $(document).ready(function() {
+    let id;
 
-    $('.table .dBtn').on('click', function (event) {
+    $('.table .btn').on('click',function(event) {
         event.preventDefault();
-        const href = $(this).attr('href');
+        let href = $(this).attr('href');
+        let text = $(this).text();
 
-        $.get(href, function (user, status) {
-            console.log('user.id');
-            $('.myForm #name').val(user.id);
-            $('.myForm #surname').val(user.surname);
-            $('.myForm #email').val(user.email);
+        if (text == 'Edit') {
+            $.get(href, function(user, status) {
+                $('#idEdit').val(user.id);
+                $('#nameEdit').val(user.name);
+                $('#surnameEdit').val(user.surname);
+                $('#emailEdit').val(user.email);
+            });
 
-        });
+            $('#editModal').modal();
+        } else if (text == 'Delete') {
+            $.get(href, function(user, status) {
+                $('#idDel').val(user.id)
+                $('#nameDel').val(user.name);
+                $('#surnameDel').val(user.surname);
+                $('#emailDel').val(user.email);
+                id = user.id;
+                let dhref = 'admin/' + id;
+                $('.modal #delHref').attr('href', dhref);
+            });
 
-        $('.myForm #exampleModal').showModal();
+            $('#deleteModal').modal();
+        }
+    });
+
+    $('#addUser').on('click',function(event) {
+        event.preventDefault();
+        $('#addModal').modal();
     });
 });

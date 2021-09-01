@@ -27,7 +27,7 @@ public class UserController {
 	public String showUserPage(ModelMap model, Principal principal) {
 		User user = userDao.getUserByName(principal.getName());
 		Set<Role> roles = user.getRoles();
-		String msg = user.getName() + " whith role: " + user.getRoles();
+		String msg = user.getName() + " with role: " + user.getRoles();
 		model.addAttribute("msg", msg);
 		model.addAttribute("roles", roles);
 		model.addAttribute("user", user);

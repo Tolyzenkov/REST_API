@@ -13,7 +13,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminController{
 
     private final UserDao userDao;
 
@@ -37,11 +37,11 @@ public class AdminController {
         return "login";
     }
 
-    @GetMapping("/new")
-    public String newUser(Model model) {
-        model.addAttribute("user", new User());
-        return "new";
-    }
+//    @GetMapping("/new")
+//    public String newUser(Model model) {
+//        model.addAttribute("user", new User());
+//        return "new";
+//    }
 
     @PostMapping
     public String create(@ModelAttribute("user") User user,
@@ -52,11 +52,11 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/{id}/edit")
-    public String edit(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userDao.getUserById(id));
-        return "edit";
-    }
+//    @GetMapping("/{id}/edit")
+//    public String edit(@PathVariable("id") long id, Model model) {
+//        model.addAttribute("user", userDao.getUserById(id));
+//        return "edit";
+//    }
 
     @GetMapping("/currentUser")
     @ResponseBody
@@ -64,16 +64,15 @@ public class AdminController {
         return userDao.getUserById(id);
     }
 
-    @PatchMapping("/{id}")
-    public String update(Model model,
-                         @ModelAttribute("user") User user,
-                         @PathVariable("id") long id,
+    @PatchMapping("/edit")
+    public String update(User user,
                          @RequestParam(required = false, name = "role") List<String> role) {
-        userDao.updateUser(user, id, role);
+        System.out.println(user.getName());
+        userDao.updateUser(user, role);
         return "redirect:/admin";
     }
 
-    @DeleteMapping("{id}")
+    @GetMapping("{id}")
     public String delete(@PathVariable("id") long id) {
         userDao.deleteUser(id);
         return "redirect:/admin";
