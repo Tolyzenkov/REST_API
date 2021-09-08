@@ -6,7 +6,7 @@ import java.util.List;
 
 @Component
 public interface UserDao {
-    void addUser(User user, List<String> roles);
+    void addUser(User user);
 
     List<User> getAllUsers();
 
@@ -14,7 +14,7 @@ public interface UserDao {
 
     User getUserByName(String name);
 
-    void updateUser(User user, List<String> role);
+    void updateUser(User user);
 
     void deleteUser(long id);
 }

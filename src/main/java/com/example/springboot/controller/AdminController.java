@@ -1,6 +1,7 @@
 package com.example.springboot.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -11,7 +12,7 @@ import com.example.springboot.model.User;
 import java.security.Principal;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/admin")
 public class AdminController{
 
@@ -23,19 +24,19 @@ public class AdminController{
     }
 
     @GetMapping
-    public String usersList(ModelMap model, Principal principal) {
-        User user = userDao.getUserByName(principal.getName());
-        String msg = user.getName() + " with role: " + user.getRoles();
-        model.addAttribute("msg", msg);
-        model.addAttribute("users", userDao.getAllUsers());
-        model.addAttribute("user", user);
-        return "index";
+    public List<User> usersList(ModelMap model, Principal principal) {
+//        User user = userDao.getUserByName(principal.getName());
+//        String msg = user.getName() + " with role: " + user.getRoles();
+//        model.addAttribute("msg", msg);
+//        model.addAttribute("users", userDao.getAllUsers());
+//        model.addAttribute("user", user);
+        return userDao.getAllUsers();
     }
 
-    @RequestMapping(value = "login", method = RequestMethod.GET)
-    public String loginPage() {
-        return "login";
-    }
+//    @RequestMapping(value = "login", method = RequestMethod.GET)
+//    public String loginPage() {
+//        return "login";
+//    }
 
 //    @GetMapping("/new")
 //    public String newUser(Model model) {
@@ -44,12 +45,11 @@ public class AdminController{
 //    }
 
     @PostMapping
-    public String create(@ModelAttribute("user") User user,
-                         @RequestParam(required = false, name = "role") List<String> role) {
+    public User create(@RequestBody User user) {
         System.out.println(user.getName());
-        System.out.println(role);
-        userDao.addUser(user, role);
-        return "redirect:/admin";
+        System.out.println(user.getRoles());
+        userDao.addUser(user);
+        return user;
     }
 
 //    @GetMapping("/{id}/edit")
@@ -58,23 +58,21 @@ public class AdminController{
 //        return "edit";
 //    }
 
-    @GetMapping("/currentUser")
-    @ResponseBody
-    public User currentUserInfo(@RequestParam(value = "id") Long id) {
-        return userDao.getUserById(id);
-    }
+//    @GetMapping("/currentUser")
+//    @ResponseBody
+//    public User currentUserInfo(@RequestParam(value = "id") Long id) {
+//        return userDao.getUserById(id);
+//    }
 
     @PatchMapping("/edit")
-    public String update(User user,
-                         @RequestParam(required = false, name = "role") List<String> role) {
-        System.out.println(user.getName());
-        userDao.updateUser(user, role);
-        return "redirect:/admin";
+    public User update(@RequestBody User user) {
+        userDao.updateUser(user);
+        return user;
     }
 
-    @GetMapping("{id}")
+    @DeleteMapping("{id}")
     public String delete(@PathVariable("id") long id) {
         userDao.deleteUser(id);
-        return "redirect:/admin";
+        return "Success";
     }
 }

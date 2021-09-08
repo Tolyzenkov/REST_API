@@ -8,11 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.springboot.dao.UserDao;
 import com.example.springboot.model.Role;
 import com.example.springboot.model.User;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.Set;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -24,7 +25,7 @@ public class UserController {
 	}
 
 	@GetMapping()
-	public String showUserPage(ModelMap model, Principal principal) {
+	public User showUserPage(ModelMap model, Principal principal) {
 		User user = userDao.getUserByName(principal.getName());
 		Set<Role> roles = user.getRoles();
 		String msg = user.getName() + " with role: " + user.getRoles();
@@ -32,7 +33,7 @@ public class UserController {
 		model.addAttribute("roles", roles);
 		model.addAttribute("user", user);
 		model.addAttribute("role", new Role());
-		return "userDetails";
+		return user;
 	}
 
 }

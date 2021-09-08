@@ -16,11 +16,13 @@ public class UserDaoImpl implements UserDao{
 
     @PersistenceContext
     private EntityManager entityManager;
+    private final UsrDao usrDao;
 
     private final RoleDao roleDao;
 
     @Autowired
-    public UserDaoImpl(RoleDao roleDao) {
+    public UserDaoImpl(UsrDao usrDao, RoleDao roleDao) {
+        this.usrDao = usrDao;
         this.roleDao = roleDao;
     }
 
@@ -28,11 +30,10 @@ public class UserDaoImpl implements UserDao{
 //    PasswordEncoder passwordEncoder;
 
     @Override
-    public void addUser(User user, List<String> roles)
+    public void addUser(User user)
     {
-        user.setRoles(roleDao.setupRoles(user, roles));
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        entityManager.persist(user);
+//        user.setRoles(user.getRoles());
+      usrDao.save(user);
     }
 
     @Override
@@ -53,8 +54,7 @@ public class UserDaoImpl implements UserDao{
     }
 
     @Override
-    public void updateUser(User user, List<String> roles) {
-        user.setRoles(roleDao.setupRoles(user, roles));
+    public void updateUser(User user) {
         getUserById(user.getId()).setName(user.getName());
         getUserById(user.getId()).setSurname(user.getSurname());
         getUserById(user.getId()).setEmail(user.getEmail());
