@@ -28,7 +28,7 @@
                 <a class="nav-link active" href="#">Users table</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="addUser" href="/admin/new">New User</a>
+                <a class="nav-link" id="addUser" href="">New User</a>
             </li>
         </ul>
         <table class="table table-striped">
@@ -44,28 +44,27 @@
                 <th>Delete</th>
             </tr>
             </thead>
-            <tbody>
-            <tr th:each="user : ${users}">
-                <td th:text="${user.getId()}"></td>
-                <td th:text="${user.getName()}"></td>
-                <td th:text="${user.getSurname()}"></td>
-                <td th:text="${user.getEmail()}"></td>
-                <td th:text="${user.getPassword()}"></td>
-                <td th:text="${user.getRoles()}"></td>
-                <td>
-                    <a th:href="@{admin/currentUser(id=${user.id})}" class="btn btn-primary" id="eButton">Edit</a>
-                </td>
-                <td>
-                    <a th:href="@{admin/currentUser(id=${user.id})}" class="btn btn-danger dButton">Delete</a>
-                </td>
-            </tr>
+            <tbody id="users">
+<!--            <tr th:each="user : ${users}">-->
+<!--                <td th:text="${user.getId()}"></td>-->
+<!--                <td th:text="${user.getName()}"></td>-->
+<!--                <td th:text="${user.getSurname()}"></td>-->
+<!--                <td th:text="${user.getEmail()}"></td>-->
+<!--                <td th:text="${user.getPassword()}"></td>-->
+<!--                <td th:text="${user.getRoles()}"></td>-->
+<!--                <td>-->
+<!--                    <a th:href="@{admin/currentUser(id=${user.id})}" class="btn btn-primary" id="eButton">Edit</a>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <a th:href="@{admin/currentUser(id=${user.id})}" class="btn btn-danger dButton">Delete</a>-->
+<!--                </td>-->
+<!--            </tr>-->
             </tbody>
         </table>
 
         <!-- Edit modal-->
         <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
              aria-hidden="true">
-            <form th:method="PATCH" th:action="@{/admin/edit}">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -75,7 +74,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form id="editUserForm">
                                 <div class="form-group">
                                     <label for="idEdit" class="col-form-label">Id</label>
                                     <input type="text" readonly class="form-control" name="id" id="idEdit">
@@ -103,15 +102,14 @@
                                         <option th:value="ROLE_USER" th:text="USER"></option>
                                     </select>
                                 </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Edit</button>
+                                </div>
                             </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Edit</button>
                         </div>
                     </div>
                 </div>
-            </form>
         </div>
 
         <!-- Delete modal-->
@@ -126,7 +124,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form id="deleteUserForm">
                             <div class="form-group">
                                 <label for="idDel" class="col-form-label">Id</label>
                                 <input type="text" disabled class="form-control" name="id" id="idDel">
@@ -143,12 +141,13 @@
                                 <label for="emailDel" class="col-form-label">Email</label>
                                 <input type="text" disabled class="form-control" name="email" id="emailDel">
                             </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Delete</button>
+                            </div>
                         </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <a href="" class="btn btn-primary" id="delHref">Delete</a>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -157,21 +156,17 @@
     <!-- Add modal-->
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel"
          aria-hidden="true">
-        <form th:method="POST" th:action="@{admin}">
+
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addModalLabel">Delete user</h5>
+                        <h5 class="modal-title" id="addModalLabel">Add User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="idAdd" class="col-form-label">Id</label>
-                                <input type="text" disabled class="form-control" name="id" id="idAdd">
-                            </div>
+                        <form id="addUserForm">
                             <div class="form-group">
                                 <label for="nameAdd" class="col-form-label">Name</label>
                                 <input type="text" class="form-control" name="name" id="nameAdd">
@@ -191,19 +186,18 @@
                             <div class="form-group">
                                 <label for="roleAdd">Enter role: </label>
                                 <select name="role" multiple id="roleAdd">
-                                    <option th:value="ROLE_ADMIN" th:text="ADMIN"></option>
-                                    <option th:value="ROLE_USER" th:text="USER"></option>
+                                    <option id="role_1" th:value="ROLE_ADMIN" th:text="ADMIN"></option>
+                                    <option id="role_2" th:value="ROLE_USER" th:text="USER"></option>
                                 </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Create User</button>
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Create User</button>
-                    </div>
                 </div>
             </div>
-        </form>
     </div>
 </div>
 </div>
@@ -215,7 +209,7 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="js/objToModal.js" th:src="@{/js/objToModal.js}"></script>
+<script type="text/javascript" src="js/main.js" th:src="@{/js/main.js}"></script>
 
 </body>
 </html>

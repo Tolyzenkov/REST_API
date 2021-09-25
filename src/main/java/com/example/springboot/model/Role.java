@@ -1,10 +1,12 @@
 package com.example.springboot.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -42,9 +44,7 @@ public class Role implements GrantedAuthority {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+
 
     @JsonIgnore
     public Set<User> getUsers() {
@@ -64,5 +64,10 @@ public class Role implements GrantedAuthority {
     @Override
     public String toString() {
         return name;
+    }
+
+    @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+    public void setName(String name) {
+        this.name = name;
     }
 }

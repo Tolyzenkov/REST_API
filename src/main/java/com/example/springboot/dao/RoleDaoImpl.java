@@ -53,7 +53,7 @@ public class RoleDaoImpl implements RoleDao {
             roles.add(getRoleByRolename("ROLE_USER"));
         }
         user.setRoles(roles);
-        System.out.println(user.getRoles());
+//        System.out.println(user.getRoles());
         return roles;
     }
 

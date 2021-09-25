@@ -44,7 +44,6 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User getUserById(long id) {
-        System.err.println(getAllUsers().stream().filter(user -> user.getId() == id).findAny().orElse(null));
         return getAllUsers().stream().filter(user -> user.getId() == id).findAny().orElse(null);
     }
 
@@ -55,6 +54,7 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public void updateUser(User user) {
+        System.out.println(user.getName());
         getUserById(user.getId()).setName(user.getName());
         getUserById(user.getId()).setSurname(user.getSurname());
         getUserById(user.getId()).setEmail(user.getEmail());

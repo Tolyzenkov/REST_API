@@ -12,8 +12,8 @@ import com.example.springboot.model.User;
 import java.security.Principal;
 import java.util.List;
 
-@RestController
-@RequestMapping("/admin")
+@Controller
+@RequestMapping("/")
 public class AdminController{
 
     private final UserDao userDao;
@@ -23,15 +23,17 @@ public class AdminController{
         this.userDao = userDao;
     }
 
-    @GetMapping
-    public List<User> usersList(ModelMap model, Principal principal) {
-//        User user = userDao.getUserByName(principal.getName());
-//        String msg = user.getName() + " with role: " + user.getRoles();
-//        model.addAttribute("msg", msg);
-//        model.addAttribute("users", userDao.getAllUsers());
-//        model.addAttribute("user", user);
-        return userDao.getAllUsers();
+    @GetMapping("/admin")
+    public String usersList(ModelMap model, Principal principal) {
+        User user = userDao.getUserByName(principal.getName());
+        String msg = user.getName() + " with role: " + user.getRoles();
+        model.addAttribute("msg", msg);
+        model.addAttribute("users", userDao.getAllUsers());
+        model.addAttribute("user", user);
+        return "index";
     }
+
+
 
 //    @RequestMapping(value = "login", method = RequestMethod.GET)
 //    public String loginPage() {
@@ -44,35 +46,5 @@ public class AdminController{
 //        return "new";
 //    }
 
-    @PostMapping
-    public User create(@RequestBody User user) {
-        System.out.println(user.getName());
-        System.out.println(user.getRoles());
-        userDao.addUser(user);
-        return user;
-    }
 
-//    @GetMapping("/{id}/edit")
-//    public String edit(@PathVariable("id") long id, Model model) {
-//        model.addAttribute("user", userDao.getUserById(id));
-//        return "edit";
-//    }
-
-//    @GetMapping("/currentUser")
-//    @ResponseBody
-//    public User currentUserInfo(@RequestParam(value = "id") Long id) {
-//        return userDao.getUserById(id);
-//    }
-
-    @PatchMapping("/edit")
-    public User update(@RequestBody User user) {
-        userDao.updateUser(user);
-        return user;
-    }
-
-    @DeleteMapping("{id}")
-    public String delete(@PathVariable("id") long id) {
-        userDao.deleteUser(id);
-        return "Success";
-    }
 }
